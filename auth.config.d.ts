@@ -181,6 +181,10 @@ export declare class AuthConfig {
      */
     clockSkewInSec?: 600;
     /**
+     * The interceptors waits this time span if there is no token
+    */
+    waitForTokenInMsec?: number;
+    /**
      * Code Flow is by defauld used together with PKCI which is also higly recommented.
      * You can disbale it here by setting this flag to true.
      * https://tools.ietf.org/html/rfc7636#section-1.1

@@ -531,6 +531,10 @@ var AuthConfig = /** @class */ (function () {
          */
         this.useHttpBasicAuth = false;
         /**
+         * The interceptors waits this time span if there is no token
+         */
+        this.waitForTokenInMsec = 0;
+        /**
          * Code Flow is by defauld used together with PKCI which is also higly recommented.
          * You can disbale it here by setting this flag to true.
          * https://tools.ietf.org/html/rfc7636#section-1.1
@@ -3750,7 +3754,8 @@ var OAuthService = /** @class */ (function (_super) {
         if (!this.validateUrlForHttps(this.loginUrl)) {
             throw new Error('loginUrl must use Http. Also check property requireHttps.');
         }
-        this.createLoginUrl(additionalState, '', null, false, params).then(this.config.openUri).catch((/**
+        this.createLoginUrl(additionalState, '', null, false, params).then(this.config.openUri)
+            .catch((/**
          * @param {?} error
          * @return {?}
          */
@@ -3868,8 +3873,6 @@ var OAuthNoopResourceServerErrorHandler = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-var WAIT_FOR_TOKEN_RECEIVED = 1000;
 var DefaultOAuthInterceptor = /** @class */ (function () {
     function DefaultOAuthInterceptor(authStorage, oAuthService, errorHandler, moduleConfig) {
         this.authStorage = authStorage;
@@ -3942,7 +3945,12 @@ var DefaultOAuthInterceptor = /** @class */ (function () {
          * @param {?} e
          * @return {?}
          */
-        function (e) { return e.type === 'token_received'; })), timeout(WAIT_FOR_TOKEN_RECEIVED), map((/**
+        function (e) { return e.type === 'token_received'; })), timeout(this.oAuthService.waitForTokenInMsec || 0), catchError((/**
+         * @param {?} _
+         * @return {?}
+         */
+        function (_) { return of(null); })), // timeout is not an error
+        map((/**
          * @param {?} _
          * @return {?}
          */

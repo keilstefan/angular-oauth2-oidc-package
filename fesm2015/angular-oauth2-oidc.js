@@ -450,6 +450,10 @@ class AuthConfig {
          */
         this.useHttpBasicAuth = false;
         /**
+         * The interceptors waits this time span if there is no token
+         */
+        this.waitForTokenInMsec = 0;
+        /**
          * Code Flow is by defauld used together with PKCI which is also higly recommented.
          * You can disbale it here by setting this flag to true.
          * https://tools.ietf.org/html/rfc7636#section-1.1
@@ -2895,7 +2899,8 @@ class OAuthService extends AuthConfig {
         if (!this.validateUrlForHttps(this.loginUrl)) {
             throw new Error('loginUrl must use Http. Also check property requireHttps.');
         }
-        this.createLoginUrl(additionalState, '', null, false, params).then(this.config.openUri).catch((/**
+        this.createLoginUrl(additionalState, '', null, false, params).then(this.config.openUri)
+            .catch((/**
          * @param {?} error
          * @return {?}
          */
@@ -2976,8 +2981,6 @@ class OAuthNoopResourceServerErrorHandler {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-const WAIT_FOR_TOKEN_RECEIVED = 1000;
 class DefaultOAuthInterceptor {
     /**
      * @param {?} authStorage
@@ -3045,7 +3048,12 @@ class DefaultOAuthInterceptor {
          * @param {?} e
          * @return {?}
          */
-        e => e.type === 'token_received')), timeout(WAIT_FOR_TOKEN_RECEIVED), map((/**
+        e => e.type === 'token_received')), timeout(this.oAuthService.waitForTokenInMsec || 0), catchError((/**
+         * @param {?} _
+         * @return {?}
+         */
+        _ => of(null))), // timeout is not an error
+        map((/**
          * @param {?} _
          * @return {?}
          */
