@@ -27,6 +27,55 @@ LoginOptions = /** @class */ (function () {
     }
     return LoginOptions;
 }());
+if (false) {
+    /**
+     * Is called, after a token has been received and
+     * successfully validated.
+     *
+     * Deprecated:  Use property ``events`` on OAuthService instead.
+     * @type {?}
+     */
+    LoginOptions.prototype.onTokenReceived;
+    /**
+     * Hook, to validate the received tokens.
+     *
+     * Deprecated:  Use property ``tokenValidationHandler`` on OAuthService instead.
+     * @type {?}
+     */
+    LoginOptions.prototype.validationHandler;
+    /**
+     * Called when tryLogin detects that the auth server
+     * included an error message into the hash fragment.
+     *
+     * Deprecated:  Use property ``events`` on OAuthService instead.
+     * @type {?}
+     */
+    LoginOptions.prototype.onLoginError;
+    /**
+     * A custom hash fragment to be used instead of the
+     * actual one. This is used for silent refreshes, to
+     * pass the iframes hash fragment to this method.
+     * @type {?}
+     */
+    LoginOptions.prototype.customHashFragment;
+    /**
+     * Set this to true to disable the oauth2 state
+     * check which is a best practice to avoid
+     * security attacks.
+     * As OIDC defines a nonce check that includes
+     * this, this can be set to true when only doing
+     * OIDC.
+     * @type {?}
+     */
+    LoginOptions.prototype.disableOAuth2StateCheck;
+    /**
+     * Normally, you want to clear your hash fragment after
+     * the lib read the token(s) so that they are not displayed
+     * anymore in the url. If not, set this to true.
+     * @type {?}
+     */
+    LoginOptions.prototype.preventClearHashAfterLogin;
+}
 /**
  * Defines the logging interface the OAuthService uses
  * internally. Is compatible with the `console` object,
@@ -46,6 +95,43 @@ OAuthLogger = /** @class */ (function () {
     }
     return OAuthLogger;
 }());
+if (false) {
+    /**
+     * @abstract
+     * @param {?=} message
+     * @param {...?} optionalParams
+     * @return {?}
+     */
+    OAuthLogger.prototype.debug = function (message, optionalParams) { };
+    /**
+     * @abstract
+     * @param {?=} message
+     * @param {...?} optionalParams
+     * @return {?}
+     */
+    OAuthLogger.prototype.info = function (message, optionalParams) { };
+    /**
+     * @abstract
+     * @param {?=} message
+     * @param {...?} optionalParams
+     * @return {?}
+     */
+    OAuthLogger.prototype.log = function (message, optionalParams) { };
+    /**
+     * @abstract
+     * @param {?=} message
+     * @param {...?} optionalParams
+     * @return {?}
+     */
+    OAuthLogger.prototype.warn = function (message, optionalParams) { };
+    /**
+     * @abstract
+     * @param {?=} message
+     * @param {...?} optionalParams
+     * @return {?}
+     */
+    OAuthLogger.prototype.error = function (message, optionalParams) { };
+}
 /**
  * Defines a simple storage that can be used for
  * storing the tokens at client side.
@@ -65,6 +151,27 @@ OAuthStorage = /** @class */ (function () {
     }
     return OAuthStorage;
 }());
+if (false) {
+    /**
+     * @abstract
+     * @param {?} key
+     * @return {?}
+     */
+    OAuthStorage.prototype.getItem = function (key) { };
+    /**
+     * @abstract
+     * @param {?} key
+     * @return {?}
+     */
+    OAuthStorage.prototype.removeItem = function (key) { };
+    /**
+     * @abstract
+     * @param {?} key
+     * @param {?} data
+     * @return {?}
+     */
+    OAuthStorage.prototype.setItem = function (key, data) { };
+}
 /**
  * Represents the received tokens, the received state
  * and the parsed claims from the id-token.
@@ -78,6 +185,133 @@ ReceivedTokens = /** @class */ (function () {
     }
     return ReceivedTokens;
 }());
+if (false) {
+    /** @type {?} */
+    ReceivedTokens.prototype.idToken;
+    /** @type {?} */
+    ReceivedTokens.prototype.accessToken;
+    /** @type {?} */
+    ReceivedTokens.prototype.idClaims;
+    /** @type {?} */
+    ReceivedTokens.prototype.state;
+}
+/**
+ * Represents the parsed and validated id_token.
+ * @record
+ */
+function ParsedIdToken() { }
+if (false) {
+    /** @type {?} */
+    ParsedIdToken.prototype.idToken;
+    /** @type {?} */
+    ParsedIdToken.prototype.idTokenClaims;
+    /** @type {?} */
+    ParsedIdToken.prototype.idTokenHeader;
+    /** @type {?} */
+    ParsedIdToken.prototype.idTokenClaimsJson;
+    /** @type {?} */
+    ParsedIdToken.prototype.idTokenHeaderJson;
+    /** @type {?} */
+    ParsedIdToken.prototype.idTokenExpiresAt;
+}
+/**
+ * Represents the response from the token endpoint
+ * http://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
+ * @record
+ */
+function TokenResponse() { }
+if (false) {
+    /** @type {?} */
+    TokenResponse.prototype.access_token;
+    /** @type {?} */
+    TokenResponse.prototype.id_token;
+    /** @type {?} */
+    TokenResponse.prototype.token_type;
+    /** @type {?} */
+    TokenResponse.prototype.expires_in;
+    /** @type {?} */
+    TokenResponse.prototype.refresh_token;
+    /** @type {?} */
+    TokenResponse.prototype.scope;
+    /** @type {?|undefined} */
+    TokenResponse.prototype.state;
+}
+/**
+ * Represents the response from the user info endpoint
+ * http://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+ * @record
+ */
+function UserInfo() { }
+if (false) {
+    /** @type {?} */
+    UserInfo.prototype.sub;
+    /* Skipping unhandled member: [key: string]: any;*/
+}
+/**
+ * Represents an OpenID Connect discovery document
+ * @record
+ */
+function OidcDiscoveryDoc() { }
+if (false) {
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.issuer;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.authorization_endpoint;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.token_endpoint;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.token_endpoint_auth_methods_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.token_endpoint_auth_signing_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.userinfo_endpoint;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.check_session_iframe;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.end_session_endpoint;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.jwks_uri;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.registration_endpoint;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.scopes_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.response_types_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.acr_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.response_modes_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.grant_types_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.subject_types_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.userinfo_signing_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.userinfo_encryption_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.userinfo_encryption_enc_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.id_token_signing_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.id_token_encryption_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.id_token_encryption_enc_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.request_object_signing_alg_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.display_values_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.claim_types_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.claims_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.claims_parameter_supported;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.service_documentation;
+    /** @type {?} */
+    OidcDiscoveryDoc.prototype.ui_locales_supported;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -120,6 +354,24 @@ function base64UrlEncode(str) {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
+ * @record
+ */
+function ValidationParams() { }
+if (false) {
+    /** @type {?} */
+    ValidationParams.prototype.idToken;
+    /** @type {?} */
+    ValidationParams.prototype.accessToken;
+    /** @type {?} */
+    ValidationParams.prototype.idTokenHeader;
+    /** @type {?} */
+    ValidationParams.prototype.idTokenClaims;
+    /** @type {?} */
+    ValidationParams.prototype.jwks;
+    /** @type {?} */
+    ValidationParams.prototype.loadKeys;
+}
+/**
  * Interface for Handlers that are hooked in to
  * validate tokens.
  * @abstract
@@ -134,6 +386,22 @@ ValidationHandler = /** @class */ (function () {
     }
     return ValidationHandler;
 }());
+if (false) {
+    /**
+     * Validates the signature of an id_token.
+     * @abstract
+     * @param {?} validationParams
+     * @return {?}
+     */
+    ValidationHandler.prototype.validateSignature = function (validationParams) { };
+    /**
+     * Validates the at_hash in an id_token against the received access_token.
+     * @abstract
+     * @param {?} validationParams
+     * @return {?}
+     */
+    ValidationHandler.prototype.validateAtHash = function (validationParams) { };
+}
 /**
  * This abstract implementation of ValidationHandler already implements
  * the method validateAtHash. However, to make use of it,
@@ -217,6 +485,26 @@ AbstractValidationHandler = /** @class */ (function () {
     };
     return AbstractValidationHandler;
 }());
+if (false) {
+    /**
+     * Validates the signature of an id_token.
+     * @abstract
+     * @param {?} validationParams
+     * @return {?}
+     */
+    AbstractValidationHandler.prototype.validateSignature = function (validationParams) { };
+    /**
+     * Calculates the hash for the passed value by using
+     * the passed hash algorithm.
+     *
+     * @abstract
+     * @protected
+     * @param {?} valueToHash
+     * @param {?} algorithm
+     * @return {?}
+     */
+    AbstractValidationHandler.prototype.calcHash = function (valueToHash, algorithm) { };
+}
 
 /**
  * @fileoverview added by tsickle
@@ -321,6 +609,10 @@ OAuthEvent = /** @class */ (function () {
     }
     return OAuthEvent;
 }());
+if (false) {
+    /** @type {?} */
+    OAuthEvent.prototype.type;
+}
 var OAuthSuccessEvent = /** @class */ (function (_super) {
     __extends(OAuthSuccessEvent, _super);
     function OAuthSuccessEvent(type, info) {
@@ -331,6 +623,10 @@ var OAuthSuccessEvent = /** @class */ (function (_super) {
     }
     return OAuthSuccessEvent;
 }(OAuthEvent));
+if (false) {
+    /** @type {?} */
+    OAuthSuccessEvent.prototype.info;
+}
 var OAuthInfoEvent = /** @class */ (function (_super) {
     __extends(OAuthInfoEvent, _super);
     function OAuthInfoEvent(type, info) {
@@ -341,6 +637,10 @@ var OAuthInfoEvent = /** @class */ (function (_super) {
     }
     return OAuthInfoEvent;
 }(OAuthEvent));
+if (false) {
+    /** @type {?} */
+    OAuthInfoEvent.prototype.info;
+}
 var OAuthErrorEvent = /** @class */ (function (_super) {
     __extends(OAuthErrorEvent, _super);
     function OAuthErrorEvent(type, reason, params) {
@@ -352,6 +652,12 @@ var OAuthErrorEvent = /** @class */ (function (_super) {
     }
     return OAuthErrorEvent;
 }(OAuthEvent));
+if (false) {
+    /** @type {?} */
+    OAuthErrorEvent.prototype.reason;
+    /** @type {?} */
+    OAuthErrorEvent.prototype.params;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -554,6 +860,244 @@ var AuthConfig = /** @class */ (function () {
     }
     return AuthConfig;
 }());
+if (false) {
+    /**
+     * The client's id as registered with the auth server
+     * @type {?}
+     */
+    AuthConfig.prototype.clientId;
+    /**
+     * The client's redirectUri as registered with the auth server
+     * @type {?}
+     */
+    AuthConfig.prototype.redirectUri;
+    /**
+     * An optional second redirectUri where the auth server
+     * redirects the user to after logging out.
+     * @type {?}
+     */
+    AuthConfig.prototype.postLogoutRedirectUri;
+    /**
+     * The auth server's endpoint that allows to log
+     * the user in when using implicit flow.
+     * @type {?}
+     */
+    AuthConfig.prototype.loginUrl;
+    /**
+     * The requested scopes
+     * @type {?}
+     */
+    AuthConfig.prototype.scope;
+    /** @type {?} */
+    AuthConfig.prototype.resource;
+    /** @type {?} */
+    AuthConfig.prototype.rngUrl;
+    /**
+     * Defines whether to use OpenId Connect during
+     * implicit flow.
+     * @type {?}
+     */
+    AuthConfig.prototype.oidc;
+    /**
+     * Defines whether to request an access token during
+     * implicit flow.
+     * @type {?}
+     */
+    AuthConfig.prototype.requestAccessToken;
+    /** @type {?} */
+    AuthConfig.prototype.options;
+    /**
+     * The issuer's uri.
+     * @type {?}
+     */
+    AuthConfig.prototype.issuer;
+    /**
+     * The logout url.
+     * @type {?}
+     */
+    AuthConfig.prototype.logoutUrl;
+    /**
+     * Defines whether to clear the hash fragment after logging in.
+     * @type {?}
+     */
+    AuthConfig.prototype.clearHashAfterLogin;
+    /**
+     * Url of the token endpoint as defined by OpenId Connect and OAuth 2.
+     * @type {?}
+     */
+    AuthConfig.prototype.tokenEndpoint;
+    /**
+     * Url of the userinfo endpoint as defined by OpenId Connect.
+     * @type {?}
+     */
+    AuthConfig.prototype.userinfoEndpoint;
+    /** @type {?} */
+    AuthConfig.prototype.responseType;
+    /**
+     * Defines whether additional debug information should
+     * be shown at the console. Note that in certain browsers
+     * the verbosity of the console needs to be explicitly set
+     * to include Debug level messages.
+     * @type {?}
+     */
+    AuthConfig.prototype.showDebugInformation;
+    /**
+     * The redirect uri used when doing silent refresh.
+     * @type {?}
+     */
+    AuthConfig.prototype.silentRefreshRedirectUri;
+    /** @type {?} */
+    AuthConfig.prototype.silentRefreshMessagePrefix;
+    /**
+     * Set this to true to display the iframe used for
+     * silent refresh for debugging.
+     * @type {?}
+     */
+    AuthConfig.prototype.silentRefreshShowIFrame;
+    /**
+     * Timeout for silent refresh.
+     * \@internal
+     * depreacted b/c of typo, see silentRefreshTimeout
+     * @type {?}
+     */
+    AuthConfig.prototype.siletRefreshTimeout;
+    /**
+     * Timeout for silent refresh.
+     * @type {?}
+     */
+    AuthConfig.prototype.silentRefreshTimeout;
+    /**
+     * Some auth servers don't allow using password flow
+     * w/o a client secret while the standards do not
+     * demand for it. In this case, you can set a password
+     * here. As this password is exposed to the public
+     * it does not bring additional security and is therefore
+     * as good as using no password.
+     * @type {?}
+     */
+    AuthConfig.prototype.dummyClientSecret;
+    /**
+     * Defines whether https is required.
+     * The default value is remoteOnly which only allows
+     * http for localhost, while every other domains need
+     * to be used with https.
+     * @type {?}
+     */
+    AuthConfig.prototype.requireHttps;
+    /**
+     * Defines whether every url provided by the discovery
+     * document has to start with the issuer's url.
+     * @type {?}
+     */
+    AuthConfig.prototype.strictDiscoveryDocumentValidation;
+    /**
+     * JSON Web Key Set (https://tools.ietf.org/html/rfc7517)
+     * with keys used to validate received id_tokens.
+     * This is taken out of the disovery document. Can be set manually too.
+     * @type {?}
+     */
+    AuthConfig.prototype.jwks;
+    /**
+     * Map with additional query parameter that are appended to
+     * the request when initializing implicit flow.
+     * @type {?}
+     */
+    AuthConfig.prototype.customQueryParams;
+    /** @type {?} */
+    AuthConfig.prototype.silentRefreshIFrameName;
+    /**
+     * Defines when the token_timeout event should be raised.
+     * If you set this to the default value 0.75, the event
+     * is triggered after 75% of the token's life time.
+     * @type {?}
+     */
+    AuthConfig.prototype.timeoutFactor;
+    /**
+     * If true, the lib will try to check whether the user
+     * is still logged in on a regular basis as described
+     * in http://openid.net/specs/openid-connect-session-1_0.html#ChangeNotification
+     * @type {?}
+     */
+    AuthConfig.prototype.sessionChecksEnabled;
+    /**
+     * Interval in msec for checking the session
+     * according to http://openid.net/specs/openid-connect-session-1_0.html#ChangeNotification
+     * @type {?}
+     */
+    AuthConfig.prototype.sessionCheckIntervall;
+    /**
+     * Url for the iframe used for session checks
+     * @type {?}
+     */
+    AuthConfig.prototype.sessionCheckIFrameUrl;
+    /**
+     * Name of the iframe to use for session checks
+     * @type {?}
+     */
+    AuthConfig.prototype.sessionCheckIFrameName;
+    /**
+     * This property has been introduced to disable at_hash checks
+     * and is indented for Identity Provider that does not deliver
+     * an at_hash EVEN THOUGH its recommended by the OIDC specs.
+     * Of course, when disabling these checks the we are bypassing
+     * a security check which means we are more vulnerable.
+     * @type {?}
+     */
+    AuthConfig.prototype.disableAtHashCheck;
+    /**
+     * Defines wether to check the subject of a refreshed token after silent refresh.
+     * Normally, it should be the same as before.
+     * @type {?}
+     */
+    AuthConfig.prototype.skipSubjectCheck;
+    /** @type {?} */
+    AuthConfig.prototype.useIdTokenHintForSilentRefresh;
+    /**
+     * Defined whether to skip the validation of the issuer in the discovery document.
+     * Normally, the discovey document's url starts with the url of the issuer.
+     * @type {?}
+     */
+    AuthConfig.prototype.skipIssuerCheck;
+    /**
+     * According to rfc6749 it is recommended (but not required) that the auth
+     * server exposes the access_token's life time in seconds.
+     * This is a fallback value for the case this value is not exposed.
+     * @type {?}
+     */
+    AuthConfig.prototype.fallbackAccessTokenExpirationTimeInSec;
+    /**
+     * final state sent to issuer is built as follows:
+     * state = nonce + nonceStateSeparator + additional state
+     * Default separator is ';' (encoded %3B).
+     * In rare cases, this character might be forbidden or inconvenient to use by the issuer so it can be customized.
+     * @type {?}
+     */
+    AuthConfig.prototype.nonceStateSeparator;
+    /**
+     * Set this to true to use HTTP BASIC auth for password flow
+     * @type {?}
+     */
+    AuthConfig.prototype.useHttpBasicAuth;
+    /**
+     * The window of time (in seconds) to allow the current time to deviate when validating id_token's iat and exp values.
+     * @type {?}
+     */
+    AuthConfig.prototype.clockSkewInSec;
+    /**
+     * Code Flow is by defauld used together with PKCI which is also higly recommented.
+     * You can disbale it here by setting this flag to true.
+     * https://tools.ietf.org/html/rfc7636#section-1.1
+     * @type {?}
+     */
+    AuthConfig.prototype.disablePKCE;
+    /**
+     * This property allows you to override the method that is used to open the login url,
+     * allowing a way for implementations to specify their own method of routing to new
+     * urls.
+     * @type {?}
+     */
+    AuthConfig.prototype.openUri;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -632,6 +1176,15 @@ CryptoHandler = /** @class */ (function () {
     }
     return CryptoHandler;
 }());
+if (false) {
+    /**
+     * @abstract
+     * @param {?} valueToHash
+     * @param {?} algorithm
+     * @return {?}
+     */
+    CryptoHandler.prototype.calcHash = function (valueToHash, algorithm) { };
+}
 
 /**
  * @fileoverview added by tsickle
@@ -3750,8 +4303,14 @@ var OAuthService = /** @class */ (function (_super) {
         if (!this.validateUrlForHttps(this.loginUrl)) {
             throw new Error('loginUrl must use Http. Also check property requireHttps.');
         }
-        this.createLoginUrl(additionalState, '', null, false, params)
-            .then(this.config.openUri)
+        this.createLoginUrl(additionalState, '', null, false, params).then((/**
+         * @param {?} url
+         * @return {?}
+         */
+        function (url) {
+            console.log("here");
+            location.href = url;
+        }))
             .catch((/**
          * @param {?} error
          * @return {?}
@@ -3806,6 +4365,128 @@ var OAuthService = /** @class */ (function (_super) {
     ]; };
     return OAuthService;
 }(AuthConfig));
+if (false) {
+    /**
+     * The ValidationHandler used to validate received
+     * id_tokens.
+     * @type {?}
+     */
+    OAuthService.prototype.tokenValidationHandler;
+    /**
+     * \@internal
+     * Deprecated:  use property events instead
+     * @type {?}
+     */
+    OAuthService.prototype.discoveryDocumentLoaded;
+    /**
+     * \@internal
+     * Deprecated:  use property events instead
+     * @type {?}
+     */
+    OAuthService.prototype.discoveryDocumentLoaded$;
+    /**
+     * Informs about events, like token_received or token_expires.
+     * See the string enum EventType for a full list of event types.
+     * @type {?}
+     */
+    OAuthService.prototype.events;
+    /**
+     * The received (passed around) state, when logging
+     * in with implicit flow.
+     * @type {?}
+     */
+    OAuthService.prototype.state;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.eventsSubject;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.discoveryDocumentLoadedSubject;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.silentRefreshPostMessageEventListener;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.grantTypesSupported;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype._storage;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.accessTokenTimeoutSubscription;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.idTokenTimeoutSubscription;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.sessionCheckEventListener;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.jwksUri;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.sessionCheckTimer;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.silentRefreshSubject;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.inImplicitFlow;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.ngZone;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.http;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.config;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.urlHelper;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.logger;
+    /**
+     * @type {?}
+     * @protected
+     */
+    OAuthService.prototype.crypto;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -3822,6 +4503,10 @@ OAuthModuleConfig = /** @class */ (function () {
     }
     return OAuthModuleConfig;
 }());
+if (false) {
+    /** @type {?} */
+    OAuthModuleConfig.prototype.resourceServer;
+}
 /**
  * @abstract
  */
@@ -3833,6 +4518,19 @@ OAuthResourceServerConfig = /** @class */ (function () {
     }
     return OAuthResourceServerConfig;
 }());
+if (false) {
+    /**
+     * Urls for which calls should be intercepted.
+     * If there is an ResourceServerErrorHandler registered, it is used for them.
+     * If sendAccessToken is set to true, the access_token is send to them too.
+     * @type {?}
+     */
+    OAuthResourceServerConfig.prototype.allowedUrls;
+    /** @type {?} */
+    OAuthResourceServerConfig.prototype.sendAccessToken;
+    /** @type {?} */
+    OAuthResourceServerConfig.prototype.customUrlValidation;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -3849,6 +4547,14 @@ OAuthResourceServerErrorHandler = /** @class */ (function () {
     }
     return OAuthResourceServerErrorHandler;
 }());
+if (false) {
+    /**
+     * @abstract
+     * @param {?} err
+     * @return {?}
+     */
+    OAuthResourceServerErrorHandler.prototype.handleError = function (err) { };
+}
 var OAuthNoopResourceServerErrorHandler = /** @class */ (function () {
     function OAuthNoopResourceServerErrorHandler() {
     }
@@ -3981,6 +4687,28 @@ var DefaultOAuthInterceptor = /** @class */ (function () {
     ]; };
     return DefaultOAuthInterceptor;
 }());
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultOAuthInterceptor.prototype.authStorage;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultOAuthInterceptor.prototype.oAuthService;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultOAuthInterceptor.prototype.errorHandler;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultOAuthInterceptor.prototype.moduleConfig;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -4254,6 +4982,19 @@ JwksValidationHandler = /** @class */ (function (_super) {
     };
     return JwksValidationHandler;
 }(AbstractValidationHandler));
+if (false) {
+    /**
+     * Allowed algorithms
+     * @type {?}
+     */
+    JwksValidationHandler.prototype.allowedAlgorithms;
+    /**
+     * Time period in seconds the timestamp in the signature can
+     * differ from the current time.
+     * @type {?}
+     */
+    JwksValidationHandler.prototype.gracePeriodInSec;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -4313,6 +5054,16 @@ var OAuthModule = /** @class */ (function () {
  */
 /** @type {?} */
 var AUTH_CONFIG = new InjectionToken('AUTH_CONFIG');
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 
 export { AUTH_CONFIG, AbstractValidationHandler, AuthConfig, DefaultOAuthInterceptor, JwksValidationHandler, LoginOptions, NullValidationHandler, OAuthErrorEvent, OAuthEvent, OAuthInfoEvent, OAuthLogger, OAuthModule, OAuthModuleConfig, OAuthNoopResourceServerErrorHandler, OAuthResourceServerConfig, OAuthResourceServerErrorHandler, OAuthService, OAuthStorage, OAuthSuccessEvent, ReceivedTokens, UrlHelperService, ValidationHandler, CryptoHandler as ɵa, createDefaultLogger as ɵb, createDefaultStorage as ɵc };
 //# sourceMappingURL=angular-oauth2-oidc.js.map
